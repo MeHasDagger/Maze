@@ -28,6 +28,8 @@ public class View extends JFrame {
      */
 
 	private Integer[][] maze;
+	private int mazeXSize;
+	private int mazeYSize;
     
     private final List<Integer> path = new ArrayList<Integer>();
     private int pathIndex;
@@ -38,9 +40,12 @@ public class View extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-        MazeGenerator generatedMaze = new MazeGenerator(5);
+        mazeXSize = 5;
+        mazeYSize = 10;
+        
+        MazeGenerator generatedMaze = new MazeGenerator(mazeXSize, mazeYSize);
         maze = generatedMaze.getMazeArray();
-        maze[9][9] = 9;
+        maze[mazeXSize * 2 - 1][mazeYSize * 2 - 1] = 9;
         
         Solver.findPath(maze, 1, 1, path);
         pathIndex = path.size() - 2;
