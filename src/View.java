@@ -52,7 +52,7 @@ public class View extends JFrame {
 	private int currentyPos = 1;
 	
     public View() {
-    	 /*	   	JPanel buttonPanel = new JPanel((LayoutManager) new FlowLayout(FlowLayout.LEFT));
+    	JPanel buttonPanel = new JPanel((LayoutManager) new FlowLayout(FlowLayout.LEFT));
     	JTextField mazeSizeText = new JTextField(4);
     	JButton applyMazeSize = new JButton("Apply");
     	JButton showPath = new JButton("Solve");
@@ -65,7 +65,7 @@ public class View extends JFrame {
 				 int mazeSize = Integer.parseInt(mazeSizeText.getText());
 				 MazeGenerator generatedMaze = new MazeGenerator(mazeSize);
 			     maze = generatedMaze.getMazeArray();
-			     maze[mazeSize * 2 - 1][mazeSize * 2 - 1] = 9;
+			   
 			     path.removeAll(path);
 				 repaint();
 			}
@@ -90,19 +90,19 @@ public class View extends JFrame {
     	buttonPanel.add(applyMazeSize);
     	buttonPanel.add(showPath);
     	add(buttonPanel);
-    	 */
+    	 
         setTitle("Simple Maze Solver");
         setSize(640, 600);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
+  /*      
   
         MazeGenerator generatedMaze = new MazeGenerator(5);
         maze = generatedMaze.getMazeArray();
         maze[9][9] = 9;
         
         Solver.findPath(maze, 1, 1, path);
-        pathIndex = path.size() - 2;
+        pathIndex = path.size() - 2; */
     }
 
     @Override
