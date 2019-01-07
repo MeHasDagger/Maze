@@ -4,7 +4,9 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.JFrame;
+
 import javax.swing.SwingUtilities;
 
 /**
@@ -46,10 +48,13 @@ public class View extends JFrame {
     private int pathIndex;
     
     public View() {
+    
         setTitle("Simple Maze Solver");
         setSize(640, 480);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        
         
         MazeGenerator generatedMaze = new MazeGenerator(5);
         maze = generatedMaze.getMazeArray();
@@ -63,7 +68,7 @@ public class View extends JFrame {
     public void paint(Graphics g) {
         super.paint(g);
         
-        g.translate(50, 50);
+        g.translate(25, 50);
         
         // draw the maze
         for (int row = 0; row < maze.length; row++) {
@@ -75,9 +80,9 @@ public class View extends JFrame {
                     default : color = Color.WHITE;
                 }
                 g.setColor(color);
-                g.fillRect(30 * col, 30 * row, 30, 30);
+                g.fillRect(10 * col, 10 * row, 10, 10);
                 g.setColor(Color.BLACK);
-                g.drawRect(30 * col, 30 * row, 30, 30);
+                g.drawRect(10 * col, 10 * row, 10, 10);
             }
         }
         
@@ -86,7 +91,7 @@ public class View extends JFrame {
             int pathX = path.get(p);
             int pathY = path.get(p + 1);
             g.setColor(Color.GREEN);
-            g.fillRect(pathX * 30, pathY * 30, 30, 30);
+            g.fillRect(pathX * 10, pathY * 10, 10, 10);
         }
 
         
@@ -94,7 +99,7 @@ public class View extends JFrame {
         int pathX = path.get(pathIndex);
         int pathY = path.get(pathIndex + 1);
         g.setColor(Color.RED);
-        g.fillOval(pathX * 30, pathY * 30, 30, 30);
+        g.fillOval(pathX * 10, pathY * 10, 10, 10);
         
     }
     

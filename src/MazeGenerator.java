@@ -73,7 +73,6 @@ public class MazeGenerator {
 			return this.neighbors.contains(new Cell(this.x + 1, this.y));
 		}
 		// useful Cell representation
-		@Override
 		public String toString() {
 			return String.format("Cell(%s, %s)", x, y);
 		}
@@ -147,39 +146,7 @@ public class MazeGenerator {
 			return null;
 		}
 	}
-
-
-	// draw the maze
-	public void updateGrid() {
-		Integer wallChar = 1, cellChar = 0;
-		// fill background
 	
-		// build walls
-		for (int x = 0; x < gridxPos; x ++) {
-			for (int y = 0; y < gridyPos; y ++) {
-				if (x % 4 == 0 || y % 2 == 0)
-					grid[x][y] = wallChar;
-			}
-		}
-		// make meaningful representation
-		for (int x = 0; x < cols; x++) {
-			for (int y = 0; y < rows; y++) {
-				Cell current = getCell(x, y);
-				int gridX = x * 4 + 2, gridY = y * 2 + 1;
-
-				grid[gridX][gridY] = cellChar;
-				if (current.isCellBelowNeighbor()) {
-					grid[gridX][gridY + 1] = cellChar;
-			
-				}
-				if (current.isCellRightNeighbor()) {
-					grid[gridX + 2][gridY] = cellChar;
-					grid[gridX + 1][gridY] = cellChar;
-					grid[gridX + 3][gridY] = cellChar;
-				}
-			}
-		}
-	}
 	// draw the maze
 		public void generateGrid() {
 			Integer wallChar = 1, cellChar = 0;
@@ -220,7 +187,7 @@ public class MazeGenerator {
 		System.out.print(this);
 	}
 	// forms a meaningful representation
-	@Override
+	
 	public String toString() {
 		//updateGrid();
 		generateGrid();
