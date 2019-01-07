@@ -16,18 +16,21 @@ public class Solver {
 	 * @param pathList - the path needed to take to reach the end
 	 * @return true if a way is found, false if standing on a wall or already visited grid
 	 */
-	public static boolean findPath(int[][] maze, int x, int y, List<Integer> pathList) {
+	public static boolean findPath(Integer[][] maze, int x, int y, List<Integer> pathList) {
+	
 		if (maze[x][y] == 9) {  // Slutdestinationen
 			pathList.add(y);
 			pathList.add(x);
 			
 			return true;
-		} else if (maze[x][y] == 0) {  // Icke besökt ruta	
-			 maze[x][y] = 2;  // Nu besökt rutan
+		
+			
+		} else if (maze[x][y] == 0 ) {  // Icke bes�kt ruta	
+			 maze[x][y] = 2;  // Nu bes�kt rutan
 			 
 			 int dx = 0;
 			 int dy = -1;
-			 if (findPath(maze, x + dx, y + dy, pathList)) {  // Kollar på rutan ovanför
+			 if (findPath(maze, x + dx, y + dy, pathList)) {  // Kollar p� rutan ovanf�r
 				 pathList.add(y);
 				 pathList.add(x);
 				 
@@ -36,7 +39,7 @@ public class Solver {
 			 
 			 dx = 1;
 			 dy = 0;
-			 if (findPath(maze, x + dx, y + dy, pathList)) {  // Kollar på rutan höger 
+			 if (findPath(maze, x + dx, y + dy, pathList)) {  // Kollar p� rutan h�ger 
 				 pathList.add(y);
 				 pathList.add(x);
 				
@@ -45,7 +48,7 @@ public class Solver {
 			 
 			 dx = 0;
 			 dy = 1;
-			 if (findPath(maze, x + dx, y + dy, pathList)) {  // Kollar på rutan under 
+			 if (findPath(maze, x + dx, y + dy, pathList)) {  // Kollar p� rutan under 
 				 pathList.add(y);
 				 pathList.add(x);
 			
@@ -54,7 +57,7 @@ public class Solver {
 			
 			 dx = -1;
 			 dy = 0;
-			 if (findPath(maze, x + dx, y + dy, pathList)) {  // Kollar på rutan vänster
+			 if (findPath(maze, x + dx, y + dy, pathList)) {  // Kollar p� rutan v�nster
 				 pathList.add(y);
 				 pathList.add(x);
 			

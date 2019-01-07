@@ -7,6 +7,10 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
+/**
+ *
+ * @author leo
+ */
 @SuppressWarnings("serial")
 public class View extends JFrame {
 
@@ -22,6 +26,7 @@ public class View extends JFrame {
      *
      * borders must be filled with "1" to void ArrayIndexOutOfBounds exception.
      */
+	/*
     private int [][] maze = 
         { {1,1,1,1,1,1,1,1,1,1,1,1,1},
           {1,0,1,0,1,0,1,0,0,0,0,0,1},
@@ -34,6 +39,8 @@ public class View extends JFrame {
           {1,0,0,0,0,0,0,0,0,0,1,9,1},
           {1,1,1,1,1,1,1,1,1,1,1,1,1}
         };
+     */
+	private Integer[][] maze;
     
     private final List<Integer> path = new ArrayList<Integer>();
     private int pathIndex;
@@ -43,6 +50,10 @@ public class View extends JFrame {
         setSize(640, 480);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        MazeGenerator generatedMaze = new MazeGenerator(5);
+        maze = generatedMaze.getMazeArray();
+        maze[9][9] = 9;
         
         Solver.findPath(maze, 1, 1, path);
         pathIndex = path.size() - 2;
@@ -78,28 +89,31 @@ public class View extends JFrame {
             g.fillRect(pathX * 30, pathY * 30, 30, 30);
         }
 
+        
         // draw the ball on path
         int pathX = path.get(pathIndex);
         int pathY = path.get(pathIndex + 1);
         g.setColor(Color.RED);
         g.fillOval(pathX * 30, pathY * 30, 30, 30);
+        
     }
     
     @Override
-    protected void processKeyEvent(KeyEvent key) {
-        if (key.getID() != KeyEvent.KEY_PRESSED) {
+    protected void processKeyEvent(KeyEvent ke) {
+        if (ke.getID() != KeyEvent.KEY_PRESSED) {
             return;
         }
-        if (key.getKeyCode() == KeyEvent.VK_UP) {
+        if (ke.getKeyCode() == KeyEvent.VK_UP) {
         	
-        } else if (key.getKeyCode() == KeyEvent.VK_RIGHT) {
+        }
+        
+        if (ke.getKeyCode() == KeyEvent.VK_RIGHT) {
             pathIndex -= 2;
             if (pathIndex < 0) {
                 pathIndex = 0;
             }
-        } else if (key.getKeyCode() == KeyEvent.VK_DOWN) {
-        	
-        } else if (key.getKeyCode() == KeyEvent.VK_LEFT) {
+        }
+        else if (ke.getKeyCode() == KeyEvent.VK_LEFT) {
             pathIndex += 2;
             if (pathIndex > path.size() - 2) {
                 pathIndex = path.size() - 2;
