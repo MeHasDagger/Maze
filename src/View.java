@@ -11,6 +11,7 @@ import javax.swing.SwingUtilities;
  *
  * @author leo
  */
+@SuppressWarnings("serial")
 public class View extends JFrame {
 
     /**
@@ -39,7 +40,7 @@ public class View extends JFrame {
           {1,1,1,1,1,1,1,1,1,1,1,1,1}
         };
      */
-	private char [][] maze;
+	private Integer[][] maze;
     
     private final List<Integer> path = new ArrayList<Integer>();
     private int pathIndex;
@@ -52,7 +53,7 @@ public class View extends JFrame {
         
         MazeGenerator generatedMaze = new MazeGenerator(5);
         maze = generatedMaze.getMazeArray();
-        maze[9][9] = '9';
+        maze[9][9] = 9;
         
         Solver.findPath(maze, 1, 1, path);
         pathIndex = path.size() - 2;
@@ -69,8 +70,8 @@ public class View extends JFrame {
             for (int col = 0; col < maze[0].length; col++) {
                 Color color;
                 switch (maze[row][col]) {
-                    case '1' : color = Color.BLACK; break;
-                    case '9' : color = Color.RED; break;
+                    case 1 : color = Color.BLACK; break;
+                    case 9 : color = Color.RED; break;
                     default : color = Color.WHITE;
                 }
                 g.setColor(color);
