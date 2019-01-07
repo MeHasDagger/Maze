@@ -20,6 +20,7 @@ public class MazeGenerator {
 
 	/**
 	 * Contructor for equal sized width and height
+	 * The Maze will scale up to about the double size due to the walls
 	 * @param xAndY is the size of the maze
 	 */
 	public MazeGenerator(int xAndY) {
@@ -27,7 +28,8 @@ public class MazeGenerator {
 	}
 
 	/**
-	 * Constructor för different sized width and height
+	 * Constructor for different sized width and height
+	 * The Maze will scale up to about the double size due to the walls
 	 * @param cols is the number of columns of the maze - except walls
 	 * @param rows is the number of rows of the maze - except walls
 	 */

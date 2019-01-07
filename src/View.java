@@ -26,20 +26,7 @@ public class View extends JFrame {
      *
      * borders must be filled with "1" to void ArrayIndexOutOfBounds exception.
      */
-	/*
-    private int [][] maze = 
-        { {1,1,1,1,1,1,1,1,1,1,1,1,1},
-          {1,0,1,0,1,0,1,0,0,0,0,0,1},
-          {1,0,1,0,0,0,1,0,1,1,1,0,1},
-          {1,0,0,0,1,1,1,0,0,0,0,0,1},
-          {1,0,1,0,0,0,0,0,1,1,1,0,1},
-          {1,0,1,0,1,1,1,0,1,0,0,0,1},
-          {1,0,1,0,1,0,0,0,1,1,1,0,1},
-          {1,0,1,0,1,1,1,0,1,0,1,0,1},
-          {1,0,0,0,0,0,0,0,0,0,1,9,1},
-          {1,1,1,1,1,1,1,1,1,1,1,1,1}
-        };
-     */
+
 	private Integer[][] maze;
     
     private final List<Integer> path = new ArrayList<Integer>();
