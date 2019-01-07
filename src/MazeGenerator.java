@@ -6,7 +6,7 @@ import java.util.Random;
 public class MazeGenerator {
 	private int cols;
 	private int rows;
-	private char[][] grid; // output grid
+	private Integer[][] grid; // output grid
 	private Cell[][] cellArray; // 2d array of Cells
 	private Random random; // The random object
 	private int gridxPos, gridyPos; // dimension of output grid
@@ -24,7 +24,7 @@ public class MazeGenerator {
 
 		random = new Random();
 
-		grid = new char[gridxPos][gridyPos];
+		grid = new Integer[gridxPos][gridyPos];
 		createCellArray();
 		generateMaze();
 	}
@@ -148,9 +148,41 @@ public class MazeGenerator {
 		}
 	}
 
+
+	// draw the maze
+	public void updateGrid() {
+		Integer wallChar = 1, cellChar = 0;
+		// fill background
+	
+		// build walls
+		for (int x = 0; x < gridxPos; x ++) {
+			for (int y = 0; y < gridyPos; y ++) {
+				if (x % 4 == 0 || y % 2 == 0)
+					grid[x][y] = wallChar;
+			}
+		}
+		// make meaningful representation
+		for (int x = 0; x < cols; x++) {
+			for (int y = 0; y < rows; y++) {
+				Cell current = getCell(x, y);
+				int gridX = x * 4 + 2, gridY = y * 2 + 1;
+
+				grid[gridX][gridY] = cellChar;
+				if (current.isCellBelowNeighbor()) {
+					grid[gridX][gridY + 1] = cellChar;
+			
+				}
+				if (current.isCellRightNeighbor()) {
+					grid[gridX + 2][gridY] = cellChar;
+					grid[gridX + 1][gridY] = cellChar;
+					grid[gridX + 3][gridY] = cellChar;
+				}
+			}
+		}
+	}
 	// draw the maze
 		public void generateGrid() {
-			char wallChar = '1', cellChar = '0';
+			Integer wallChar = 1, cellChar = 0;
 			
 			// build walls
 			for (int x = 0; x < gridxPos; x ++) {
@@ -178,7 +210,7 @@ public class MazeGenerator {
 				}
 			}
 		}
-	public char[][] getMazeArray(){
+	public Integer[][] getMazeArray(){
 		generateGrid();
 		return grid;
 	}
