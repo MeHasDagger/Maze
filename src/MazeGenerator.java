@@ -19,7 +19,7 @@ public class MazeGenerator {
 		this.cols = cols;
 		this.rows = rows;
 
-		gridxPos = cols * 4 + 1;
+		gridxPos = cols * 2 + 1;
 		gridyPos = rows * 2 + 1;
 
 		random = new Random();
@@ -192,7 +192,7 @@ public class MazeGenerator {
 			// build walls
 			for (int x = 0; x < gridxPos; x ++) {
 				for (int y = 0; y < gridyPos; y ++) {
-					if (x % 4 == 0 || y % 2 == 0)
+					//if (x % 4 == 0 || y % 2 == 0)
 						grid[x][y] = wallChar;
 				}
 			}
@@ -200,7 +200,8 @@ public class MazeGenerator {
 			for (int x = 0; x < cols; x++) {
 				for (int y = 0; y < rows; y++) {
 					Cell current = getCell(x, y);
-					int gridX = x * 4 + 2, gridY = y * 2 + 1;
+					//int gridX = x * 4 + 2, gridY = y * 2 + 1;
+					int gridX = x * 2 + 1, gridY = y * 2 + 1;
 
 					grid[gridX][gridY] = cellChar;
 					if (current.isCellBelowNeighbor()) {
@@ -209,12 +210,12 @@ public class MazeGenerator {
 					if (current.isCellRightNeighbor()) {
 						grid[gridX + 2][gridY] = cellChar;
 						grid[gridX + 1][gridY] = cellChar;
-						grid[gridX + 3][gridY] = cellChar;
+						//grid[gridX + 3][gridY] = cellChar;
 					}
 				}
 			}
 		}
-	public char[][] getCellArray(){
+	public char[][] getMazeArray(){
 		generateGrid();
 		return grid;
 	}
