@@ -11,6 +11,7 @@ import javax.swing.SwingUtilities;
  *
  * @author leo
  */
+@SuppressWarnings("serial")
 public class View extends JFrame {
 
     /**
@@ -25,8 +26,21 @@ public class View extends JFrame {
      *
      * borders must be filled with "1" to void ArrayIndexOutOfBounds exception.
      */
-
-	private char [][] maze;
+	/*
+    private int [][] maze = 
+        { {1,1,1,1,1,1,1,1,1,1,1,1,1},
+          {1,0,1,0,1,0,1,0,0,0,0,0,1},
+          {1,0,1,0,0,0,1,0,1,1,1,0,1},
+          {1,0,0,0,1,1,1,0,0,0,0,0,1},
+          {1,0,1,0,0,0,0,0,1,1,1,0,1},
+          {1,0,1,0,1,1,1,0,1,0,0,0,1},
+          {1,0,1,0,1,0,0,0,1,1,1,0,1},
+          {1,0,1,0,1,1,1,0,1,0,1,0,1},
+          {1,0,0,0,0,0,0,0,0,0,1,9,1},
+          {1,1,1,1,1,1,1,1,1,1,1,1,1}
+        };
+     */
+	private Integer[][] maze;
     
     private final List<Integer> path = new ArrayList<Integer>();
     private int pathIndex;
@@ -37,11 +51,9 @@ public class View extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-        //argumentet till mazegeneratorn blir bara själv lösningen lång
-        //Arg ger en faktisk array med arg * 2 + 1 element (väggar)
-        MazeGenerator generatedMaze = new MazeGenerator(20);
+        MazeGenerator generatedMaze = new MazeGenerator(5);
         maze = generatedMaze.getMazeArray();
-        maze[9][9] = '9';
+        maze[9][9] = 9;
         
         Solver.findPath(maze, 1, 1, path);
         pathIndex = path.size() - 2;
@@ -58,8 +70,8 @@ public class View extends JFrame {
             for (int col = 0; col < maze[0].length; col++) {
                 Color color;
                 switch (maze[row][col]) {
-                    case '1' : color = Color.BLACK; break;
-                    case '9' : color = Color.RED; break;
+                    case 1 : color = Color.BLACK; break;
+                    case 9 : color = Color.RED; break;
                     default : color = Color.WHITE;
                 }
                 g.setColor(color);
