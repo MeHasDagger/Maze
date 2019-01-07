@@ -1,18 +1,20 @@
 
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
+import java.awt.LayoutManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
-
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
-/**
- *
- * @author leo
- */
 @SuppressWarnings("serial")
 public class View extends JFrame {
 
@@ -46,16 +48,55 @@ public class View extends JFrame {
     
     private final List<Integer> path = new ArrayList<Integer>();
     private int pathIndex;
-    
+    private int currentxPos = 1;
+	private int currentyPos = 1;
+	
     public View() {
-    
+    	 /*	   	JPanel buttonPanel = new JPanel((LayoutManager) new FlowLayout(FlowLayout.LEFT));
+    	JTextField mazeSizeText = new JTextField(4);
+    	JButton applyMazeSize = new JButton("Apply");
+    	JButton showPath = new JButton("Solve");
+    	mazeSizeText.setText("25");
+  
+    	applyMazeSize.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				 int mazeSize = Integer.parseInt(mazeSizeText.getText());
+				 MazeGenerator generatedMaze = new MazeGenerator(mazeSize);
+			     maze = generatedMaze.getMazeArray();
+			     maze[mazeSize * 2 - 1][mazeSize * 2 - 1] = 9;
+			     path.removeAll(path);
+				 repaint();
+			}
+		});
+    	
+    	showPath.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (maze != null) {
+				
+					Solver.findPath(maze, 1, 1, path);
+				    pathIndex = path.size() - 2;
+	
+				    repaint();
+				}
+				 
+			}
+		});
+    	
+    	buttonPanel.add(mazeSizeText);
+    	buttonPanel.add(applyMazeSize);
+    	buttonPanel.add(showPath);
+    	add(buttonPanel);
+    	 */
         setTitle("Simple Maze Solver");
-        setSize(640, 480);
+        setSize(640, 600);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-        
-        
+  
         MazeGenerator generatedMaze = new MazeGenerator(5);
         maze = generatedMaze.getMazeArray();
         maze[9][9] = 9;
@@ -68,38 +109,41 @@ public class View extends JFrame {
     public void paint(Graphics g) {
         super.paint(g);
         
-        g.translate(25, 50);
+        g.translate(25, 75);
         
         // draw the maze
-        for (int row = 0; row < maze.length; row++) {
-            for (int col = 0; col < maze[0].length; col++) {
-                Color color;
-                switch (maze[row][col]) {
-                    case 1 : color = Color.BLACK; break;
-                    case 9 : color = Color.RED; break;
-                    default : color = Color.WHITE;
-                }
-                g.setColor(color);
-                g.fillRect(10 * col, 10 * row, 10, 10);
-                g.setColor(Color.BLACK);
-                g.drawRect(10 * col, 10 * row, 10, 10);
-            }
+        if (maze != null) {
+        	 for (int row = 0; row < maze.length; row++) {
+                 for (int col = 0; col < maze[0].length; col++) {
+                     Color color;
+                     switch (maze[row][col]) {
+                         case 1 : color = Color.BLACK; break;
+                         case 9 : color = Color.RED; break;
+                         default : color = Color.WHITE;
+                     }
+                     g.setColor(color);
+                     g.fillRect(10 * col, 10 * row, 10, 10);
+                     g.setColor(Color.BLACK);
+                     g.drawRect(10 * col, 10 * row, 10, 10);
+                 }
+             }
+             
+             // draw the path list
+             for (int p = 0; p < path.size(); p += 2) {
+                 int pathX = path.get(p);
+                 int pathY = path.get(p + 1);
+                 g.setColor(Color.GREEN);
+                 g.fillRect(pathX * 10, pathY * 10, 10, 10);
+             }
         }
-        
-        // draw the path list
-        for (int p = 0; p < path.size(); p += 2) {
-            int pathX = path.get(p);
-            int pathY = path.get(p + 1);
-            g.setColor(Color.GREEN);
-            g.fillRect(pathX * 10, pathY * 10, 10, 10);
-        }
+       
 
-        
+    /*    
         // draw the ball on path
         int pathX = path.get(pathIndex);
         int pathY = path.get(pathIndex + 1);
         g.setColor(Color.RED);
-        g.fillOval(pathX * 10, pathY * 10, 10, 10);
+        g.fillOval(pathX * 10, pathY * 10, 10, 10);*/
         
     }
     
@@ -109,21 +153,30 @@ public class View extends JFrame {
             return;
         }
         if (ke.getKeyCode() == KeyEvent.VK_UP) {
-        	
-        }
+        	if (maze[currentxPos][currentyPos - 1] != 1) {
+        		currentyPos = -1;
+        		System.out.println("moved up");
+        	} 
+        		
+        } else if (ke.getKeyCode() == KeyEvent.VK_RIGHT) {
+        	if (maze[currentxPos + 1][currentyPos] != 1) {
+        		currentxPos += 1;
+        		System.out.println("moved right");
+        	}
         
-        if (ke.getKeyCode() == KeyEvent.VK_RIGHT) {
-            pathIndex -= 2;
-            if (pathIndex < 0) {
-                pathIndex = 0;
-            }
+        } else if (ke.getKeyCode() == KeyEvent.VK_DOWN) {
+        	if (maze[currentxPos][currentyPos + 1] != 1) {
+        		currentyPos += 1;
+        		System.out.println("moved down");
+        	}
+        } else if (ke.getKeyCode() == KeyEvent.VK_LEFT) {
+        	if (maze[currentxPos - 1][currentyPos] != 1) {
+        		currentxPos -= 1;
+        		System.out.println("moved left");
+        	}
+           
         }
-        else if (ke.getKeyCode() == KeyEvent.VK_LEFT) {
-            pathIndex += 2;
-            if (pathIndex > path.size() - 2) {
-                pathIndex = path.size() - 2;
-            }
-        }
+        System.out.println(currentxPos + " " + currentyPos);
         repaint(); 
     }
     
