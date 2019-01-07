@@ -7,10 +7,7 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-/**
- *
- * @author leo
- */
+@SuppressWarnings("serial")
 public class View extends JFrame {
 
     /**
@@ -89,21 +86,20 @@ public class View extends JFrame {
     }
     
     @Override
-    protected void processKeyEvent(KeyEvent ke) {
-        if (ke.getID() != KeyEvent.KEY_PRESSED) {
+    protected void processKeyEvent(KeyEvent key) {
+        if (key.getID() != KeyEvent.KEY_PRESSED) {
             return;
         }
-        if (ke.getKeyCode() == KeyEvent.VK_UP) {
+        if (key.getKeyCode() == KeyEvent.VK_UP) {
         	
-        }
-        
-        if (ke.getKeyCode() == KeyEvent.VK_RIGHT) {
+        } else if (key.getKeyCode() == KeyEvent.VK_RIGHT) {
             pathIndex -= 2;
             if (pathIndex < 0) {
                 pathIndex = 0;
             }
-        }
-        else if (ke.getKeyCode() == KeyEvent.VK_LEFT) {
+        } else if (key.getKeyCode() == KeyEvent.VK_DOWN) {
+        	
+        } else if (key.getKeyCode() == KeyEvent.VK_LEFT) {
             pathIndex += 2;
             if (pathIndex > path.size() - 2) {
                 pathIndex = path.size() - 2;
