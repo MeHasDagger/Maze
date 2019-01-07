@@ -25,20 +25,7 @@ public class View extends JFrame {
      *
      * borders must be filled with "1" to void ArrayIndexOutOfBounds exception.
      */
-	/*
-    private int [][] maze = 
-        { {1,1,1,1,1,1,1,1,1,1,1,1,1},
-          {1,0,1,0,1,0,1,0,0,0,0,0,1},
-          {1,0,1,0,0,0,1,0,1,1,1,0,1},
-          {1,0,0,0,1,1,1,0,0,0,0,0,1},
-          {1,0,1,0,0,0,0,0,1,1,1,0,1},
-          {1,0,1,0,1,1,1,0,1,0,0,0,1},
-          {1,0,1,0,1,0,0,0,1,1,1,0,1},
-          {1,0,1,0,1,1,1,0,1,0,1,0,1},
-          {1,0,0,0,0,0,0,0,0,0,1,9,1},
-          {1,1,1,1,1,1,1,1,1,1,1,1,1}
-        };
-     */
+
 	private char [][] maze;
     
     private final List<Integer> path = new ArrayList<Integer>();
@@ -50,7 +37,9 @@ public class View extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-        MazeGenerator generatedMaze = new MazeGenerator(5);
+        //argumentet till mazegeneratorn blir bara själv lösningen lång
+        //Arg ger en faktisk array med arg * 2 + 1 element (väggar)
+        MazeGenerator generatedMaze = new MazeGenerator(20);
         maze = generatedMaze.getMazeArray();
         maze[9][9] = '9';
         
