@@ -196,7 +196,7 @@ public class MazeGenerator {
 	 * @return the cell at the given position, if non existing or
 	 * out of bounds it returns null
 	 */
-	public Cell getCell(int x, int y) {
+	private Cell getCell(int x, int y) {
 		try {
 			return cellArray[x][y];
 		} catch (ArrayIndexOutOfBoundsException e) {
@@ -208,21 +208,17 @@ public class MazeGenerator {
 	 * Generates a grid containing 1 for walls and
 	 * 0 for path from the path from the cell array
 	 */
-	public void generateGrid() {
+	private void generateGrid() {
 		Integer wall = 1, hallway = 0, target = 9;
 		
-		// build walls
 		for (int x = 0; x < gridxPos; x ++) {
 			for (int y = 0; y < gridyPos; y ++) {
-				//if (x % 4 == 0 || y % 2 == 0)
 					grid[x][y] = wall;
 			}
 		}
-		// make meaningful representation
 		for (int x = 0; x < cols; x++) {
 			for (int y = 0; y < rows; y++) {
 				Cell current = getCell(x, y);
-				//int gridX = x * 4 + 2, gridY = y * 2 + 1;
 				int gridX = x * 2 + 1, gridY = y * 2 + 1;
 
 				if (x == cols - 1 && y == rows - 1) {
@@ -235,7 +231,6 @@ public class MazeGenerator {
 					if (current.isCellRightNeighbor()) {
 						grid[gridX + 2][gridY] = hallway;
 						grid[gridX + 1][gridY] = hallway;
-						//grid[gridX + 3][gridY] = cellChar;
 					}
 				}
 				
@@ -251,33 +246,4 @@ public class MazeGenerator {
 		generateGrid();
 		return grid;
 	}
-
-	/**
-	 * Prints the maze to the console
-	 */
-	public void draw() {
-		System.out.print(this);
-	}
-
-	/**
-	 * Generates the grid and prints the grid array
-	 */
-	@Override
-	public String toString() {
-		generateGrid();
-		String output = "";
-		for (int y = 0; y < gridyPos; y++) {
-			for (int x = 0; x < gridxPos; x++) {
-				output += grid[x][y];
-			}
-			output += "\n";
-		}
-		return output;
-	}
-
-	public static void main(String[] args) {
-		MazeGenerator maze = new MazeGenerator(5);
-		maze.draw();
-	}
-
 }
