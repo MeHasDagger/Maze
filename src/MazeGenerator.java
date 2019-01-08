@@ -21,24 +21,24 @@ public class MazeGenerator {
 		
 	
 		if (gridxPos % 2 == 0) {
-			gridxPos = gridxPos + 1;
-			gridyPos = gridyPos + 1;
+			this.gridxPos = gridxPos + 1;
+			this.gridyPos = gridyPos + 1;
 			
 		}
-		System.out.println("xpos: " + gridxPos + " ypos: " + gridyPos);
+		System.out.println("xpos: " + this.gridxPos + " ypos: " + this.gridyPos);
 		
 		
 		
 
-		cols = (int) Math.floor(gridxPos / 2);
-		rows = (int) Math.floor(gridyPos / 2);
+		cols = (int) Math.floor(this.gridxPos / 2);
+		rows = (int) Math.floor(this.gridyPos / 2);
 		System.out.println("cols: " + cols + "rows: " + rows);
 		
 		random = new Random();
 
 		
 		
-		grid = new Integer[gridxPos][gridyPos];
+		grid = new Integer[this.gridxPos][this.gridyPos];
 		createCellArray();
 		generateMaze();
 	}
