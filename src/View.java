@@ -12,13 +12,15 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
+import javafx.scene.control.Cell;
+
 @SuppressWarnings("serial")
 public class View extends JFrame {
-
 	/**
 	 * Conventions:
 	 * 
@@ -40,58 +42,58 @@ public class View extends JFrame {
 
 	public View() {
 
-    	JPanel buttonPanel = new JPanel((LayoutManager) new FlowLayout(FlowLayout.LEFT));
-    	JTextField mazeSizeText = new JTextField(4);
-    	JButton applyMazeSize = new JButton("Apply");
-    	JButton showPath = new JButton("Solve");
-    	mazeSizeText.setText("25");
-    	
-    	KeyListener keylis = new KeyListener() {
-			
+		JPanel buttonPanel = new JPanel((LayoutManager) new FlowLayout(FlowLayout.LEFT));
+		JTextField mazeSizeText = new JTextField(4);
+		JButton applyMazeSize = new JButton("Apply");
+		JButton showPath = new JButton("Solve");
+		mazeSizeText.setText("25");
+
+		KeyListener keylis = new KeyListener() {
+
 			@Override
 			public void keyTyped(KeyEvent e) {
-				//hjälper ignent
-			
-				
+				//hjÃ¤lper ignent
+
+
 			}
-			
+
 			@Override
 			public void keyReleased(KeyEvent e) {
 				//seg
-		
-				
+
+
 			}
-			
+
 			@Override
 			public void keyPressed(KeyEvent e) {
 				//snabbast
 				movePlayer(e);
 				repaint(); 
-				
+
 			}
 		};
-    	buttonPanel.addKeyListener(keylis);
-    	mazeSizeText.addKeyListener(keylis);
-    	applyMazeSize.addKeyListener(keylis);
-    	showPath.addKeyListener(keylis);
-    	mazeSizeText.addKeyListener(keylis);
+		buttonPanel.addKeyListener(keylis);
+		mazeSizeText.addKeyListener(keylis);
+		applyMazeSize.addKeyListener(keylis);
+		showPath.addKeyListener(keylis);
+		mazeSizeText.addKeyListener(keylis);
 
-    	applyMazeSize.addActionListener(new ActionListener() {
+		applyMazeSize.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				 int mazeSize = Integer.parseInt(mazeSizeText.getText());
-				 MazeGenerator generatedMaze = new MazeGenerator(mazeSize);
-			     maze = generatedMaze.getMazeArray();
-			     currentxPos = 1;
-			     currentyPos = 1;
-			     path.removeAll(path);
-				 repaint();
-				
+				int mazeSize = Integer.parseInt(mazeSizeText.getText());
+				MazeGenerator generatedMaze = new MazeGenerator(mazeSize);
+				maze = generatedMaze.getMazeArray();
+				currentxPos = 1;
+				currentyPos = 1;
+				path.removeAll(path);
+				repaint();
+
 			}
 		});
 
-    	showPath.addActionListener(new ActionListener() {
+		showPath.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -101,22 +103,22 @@ public class View extends JFrame {
 						System.out.println("path not null");
 					Solver.findPath(maze, 1, 1, path);
 
-				    repaint();
+					repaint();
 				}
 
 			}
 		});
 
-    	buttonPanel.add(mazeSizeText);
-    	buttonPanel.add(applyMazeSize);
-    	buttonPanel.add(showPath);
-    	add(buttonPanel);
-		
+		buttonPanel.add(mazeSizeText);
+		buttonPanel.add(applyMazeSize);
+		buttonPanel.add(showPath);
+		add(buttonPanel);
+
 		setTitle("Simple Maze Solver");
 		setSize(640, 600);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+
 	}
 
 	@Override
@@ -126,6 +128,7 @@ public class View extends JFrame {
 
 		// draw the maze
 		if (maze != null) {
+			
 				for (int row = 0; row < maze.length; row++) {
 					for (int col = 0; col < maze[0].length; col++) {
 						Color color;
@@ -148,18 +151,22 @@ public class View extends JFrame {
 					g.setColor(Color.GREEN);
 					g.fillRect(pathX * 10, pathY * 10, 10, 10);
 				}
-			
-			//player
-			int pathX = currentxPos;
-			int pathY = currentyPos;
-			g.setColor(Color.BLUE);
-			g.fillOval(pathX * 10, pathY * 10, 10, 10);
-		}
+
+				//player
+				int pathX = currentxPos;
+				int pathY = currentyPos;
+				g.setColor(Color.BLUE);
+				g.fillOval(pathX * 10, pathY * 10, 10, 10);
+				
+				if(maze[currentyPos][currentxPos] == 9) 
+					JOptionPane.showMessageDialog(getParent(), "You finished the maze!");
+			}
+		
 	}
 
 
 	private void movePlayer(KeyEvent ke) {
-		
+
 		if (ke.getID() != KeyEvent.KEY_PRESSED) {
 			return;
 		}

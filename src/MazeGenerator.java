@@ -128,13 +128,7 @@ public class MazeGenerator {
 		boolean isCellRightNeighbor() {
 			return this.neighbors.contains(new Cell(this.x + 1, this.y));
 		}
-		/**
-		 * Prints the cell and its coordinates
-		 */
-		@Override
-		public String toString() {
-			return String.format("Cell(%s, %s)", x, y);
-		}
+
 		/**
 		 * Checks it two cells are equal to each other
 		 * @param other is the object for comparison
