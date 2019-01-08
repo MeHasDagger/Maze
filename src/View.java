@@ -97,6 +97,7 @@ public class View extends JFrame {
 	/**
 	 * A inner class that implements ActionListener used for the applyButton. 
 	 * It confirms that there is numerical values in the JTextFields and reapplies them to the maze and GUI.
+	 * Also resets a bunch of controls for player movement
 	 *  
 	 * @author Mattias Melchior, Sanna Lundqvist
 	 *
@@ -114,6 +115,7 @@ public class View extends JFrame {
 					generatedMaze = new MazeGenerator(mazeSize);
 				    mazeArray = generatedMaze.getMazeArray();
 				    keylistener.resetCurrentPos();
+				    keylistener.resetIfWon();
 				    path.removeAll(path);
 				    isPathShowing = false;
 					repaint();
