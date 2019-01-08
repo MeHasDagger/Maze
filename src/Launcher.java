@@ -1,5 +1,10 @@
 import javax.swing.SwingUtilities;
-
+/**
+ * This is the startup class.
+ * 
+ * @author Mattias Melchior, Sanna Lundqvist
+ *
+ */
 public class Launcher {
 
 	public static void main(String[] args) {
@@ -10,5 +15,4 @@ public class Launcher {
 	            }
 	        });
 	}
-
 }

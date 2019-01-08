@@ -11,16 +11,14 @@ import java.util.Random;
  */
 
 public class MazeGenerator {
-	private int cols;
-	private int rows;
-	private Integer[][] grid; // output grid
-	private Cell[][] cellArray; // 2d array of Cells
+	private int cols, rows;  // The
+	private Integer[][] grid; // Output grid
+	private Cell[][] cellArray; // 2D array of Cells
 	private Random random; // The random object
-	private int gridxPos, gridyPos; // dimension of output grid
+	private int gridxPos, gridyPos; // Dimension of output grid
 
 	/**
 	 * Contructor for equal sized width and height
-	 * The Maze will scale up to about the double size due to the walls
 	 * @param xAndY is the size of the maze
 	 */
 	public MazeGenerator(int xAndY) {
@@ -29,40 +27,31 @@ public class MazeGenerator {
 
 	/**
 	 * Constructor for different sized width and height
-	 * The Maze will scale up to about the double size due to the walls
-	 * @param cols is the number of columns of the maze - except walls
-	 * @param rows is the number of rows of the maze - except walls
+	 * @param gridxPos is the number of columns of the maze
+	 * @param gridyPos is the number of rows of the maze
 	 */
 	public MazeGenerator(int gridxPos, int gridyPos) {
 		this.gridxPos = gridxPos;
 		this.gridyPos = gridyPos;
-		
 	
 		if (gridxPos % 2 == 0) {
 			this.gridxPos = gridxPos + 1;
 			this.gridyPos = gridyPos + 1;
-			
-		}
-		System.out.println("xpos: " + this.gridxPos + " ypos: " + this.gridyPos);
-		
-		
-		
+		} 
 
 		cols = (int) Math.floor(this.gridxPos / 2);
 		rows = (int) Math.floor(this.gridyPos / 2);
 		
 		random = new Random();
 
-		
-		
 		grid = new Integer[this.gridxPos][this.gridyPos];
 		createCellArray();
 		generateMaze();
 	}
 
 	/**
-	 * Creates the array in witch the maze can be generated
-	 * No walls here
+	 * Creates the array in which the maze can be generated
+	 * No walls yet
 	 */
 	private void createCellArray() {
 		cellArray = new Cell[cols][rows];
@@ -85,7 +74,7 @@ public class MazeGenerator {
 		boolean avalible = true;
 		/**
 		 * Constructor with the cells coordinates
-		 * This cell is considerd as a wall
+		 * This cell is considered as a wall
 		 * @param x the coordinate in the columns
 		 * @param y the coordinate in the rows
 		 */
@@ -103,7 +92,7 @@ public class MazeGenerator {
 			this.y = y;
 		}
 		/**
-		 * Adds a cell as neighbor isn't already
+		 * Adds a cell as neighbor if it isn't one already
 		 * @param other the cell to be added as neighbor
 		 */
 		void addNeighbor(Cell other) {
@@ -130,7 +119,7 @@ public class MazeGenerator {
 		}
 
 		/**
-		 * Checks it two cells are equal to each other
+		 * Checks if two cells are equal to each other
 		 * @param other is the object for comparison
 		 */
 		@Override

@@ -1,6 +1,6 @@
 import java.util.List;
 /**
- * This class solves the maze by finding the correct path
+ * This class solves the maze by finding the correct path with depth first search.
  * 
  * @author Mattias Melchior, Sanna Lundqvist
  *
@@ -25,36 +25,36 @@ public class Solver {
 		} else if (maze[x][y] == 0 ) {  // Icke besökt ruta	
 			 maze[x][y] = 2;  // Nu besökt rutan
 			 
-			 int dx = 0;
-			 int dy = -1;
-			 if (findPath(maze, x + dx, y + dy, pathList)) {  // Kollar på rutan ovanför
+			 int deltax = 0;
+			 int deltay = -1;
+			 if (findPath(maze, x + deltax, y + deltay, pathList)) {  // Inspects the cell above
 				 pathList.add(y);
 				 pathList.add(x);
 				 
 				 return true;
 			 }
 			 
-			 dx = 1;
-			 dy = 0;
-			 if (findPath(maze, x + dx, y + dy, pathList)) {  // Kollar på rutan höger 
+			 deltax = 1;
+			 deltay = 0;
+			 if (findPath(maze, x + deltax, y + deltay, pathList)) {  // Inspects the cell to the right 
 				 pathList.add(y);
 				 pathList.add(x);
 				
 				 return true;
 			 }
 			 
-			 dx = 0;
-			 dy = 1;
-			 if (findPath(maze, x + dx, y + dy, pathList)) {  // Kollar på rutan under 
+			 deltax = 0;
+			 deltay = 1;
+			 if (findPath(maze, x + deltax, y + deltay, pathList)) {  // Inspects the cell below
 				 pathList.add(y);
 				 pathList.add(x);
 			
 				 return true;
 			 }
 			
-			 dx = -1;
-			 dy = 0;
-			 if (findPath(maze, x + dx, y + dy, pathList)) {  // Kollar på rutan vänster
+			 deltax = -1;
+			 deltay = 0;
+			 if (findPath(maze, x + deltax, y + deltay, pathList)) {  // Inspects the cell to the left
 				 pathList.add(y);
 				 pathList.add(x);
 			
