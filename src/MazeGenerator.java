@@ -15,15 +15,29 @@ public class MazeGenerator {
 		this(xAndY, xAndY);
 	}
 	// constructor
-	public MazeGenerator(int cols, int rows) {
-		this.cols = cols;
-		this.rows = rows;
+	public MazeGenerator(int gridxPos, int gridyPos) {
+		this.gridxPos = gridxPos;
+		this.gridyPos = gridyPos;
+		
+	
+		if (gridxPos % 2 == 0) {
+			gridxPos = gridxPos + 1;
+			gridyPos = gridyPos + 1;
+			
+		}
+		System.out.println("xpos: " + gridxPos + " ypos: " + gridyPos);
+		
+		
+		
 
-		gridxPos = cols * 2 + 1;
-		gridyPos = rows * 2 + 1;
-
+		cols = (int) Math.floor(gridxPos / 2);
+		rows = (int) Math.floor(gridyPos / 2);
+		System.out.println("cols: " + cols + "rows: " + rows);
+		
 		random = new Random();
 
+		
+		
 		grid = new Integer[gridxPos][gridyPos];
 		createCellArray();
 		generateMaze();
@@ -110,7 +124,7 @@ public class MazeGenerator {
 			// this is to reduce but not completely eliminate the number
 			//   of long twisting halls with short easy to detect branches
 			//   which results in easy mazes
-			if (random.nextInt(10)==0)
+			if (random.nextInt(2) == 0)
 				cell = cells.remove(random.nextInt(cells.size()));
 			else 
 				cell = cells.remove(cells.size() - 1);
@@ -125,7 +139,7 @@ public class MazeGenerator {
 			};
 			for (Cell other : potentialNeighbors) {
 				// jag tog bort || other.wall
-				if (other==null || !other.avalible) continue;
+				if (other == null || !other.avalible) continue;
 				neighbors.add(other);
 			}
 			if (neighbors.isEmpty()) continue;
@@ -210,7 +224,7 @@ public class MazeGenerator {
 	// run it
 	
 	public static void main(String[] args) {
-		MazeGenerator maze = new MazeGenerator(5);
+		MazeGenerator maze = new MazeGenerator(8);
 		maze.draw();
 	}
 	

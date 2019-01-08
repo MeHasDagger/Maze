@@ -29,10 +29,6 @@ public class testMazeGenerator {
 		}
 	}
 	
-	@Test
-	public void testToString() {
-		String output = generatedMaze.toString();
-		
-	}
+
 
 }
