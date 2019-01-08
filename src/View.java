@@ -87,6 +87,7 @@ public class View extends JFrame {
 			     currentyPos = 1;
 			     path.removeAll(path);
 				 repaint();
+				
 			}
 		});
 
@@ -125,38 +126,35 @@ public class View extends JFrame {
 
 		// draw the maze
 		if (maze != null) {
-			for (int row = 0; row < maze.length; row++) {
-				for (int col = 0; col < maze[0].length; col++) {
-					Color color;
-					switch (maze[row][col]) {
-					case 1 : color = Color.BLACK; break;
-					case 9 : color = Color.RED; break;
-					default : color = Color.WHITE;
+				for (int row = 0; row < maze.length; row++) {
+					for (int col = 0; col < maze[0].length; col++) {
+						Color color;
+						switch (maze[row][col]) {
+						case 1 : color = Color.BLACK; break;
+						case 9 : color = Color.RED; break;
+						default : color = Color.WHITE;
+						}
+						g.setColor(color);
+						g.fillRect(10 * col, 10 * row, 10, 10);
+						g.setColor(Color.BLACK);
+						g.drawRect(10 * col, 10 * row, 10, 10);
 					}
-					g.setColor(color);
-					g.fillRect(10 * col, 10 * row, 10, 10);
-					g.setColor(Color.BLACK);
-					g.drawRect(10 * col, 10 * row, 10, 10);
 				}
-			}
 
-			// draw the path list
-			for (int p = 0; p < path.size(); p += 2) {
-				int pathX = path.get(p);
-				int pathY = path.get(p + 1);
-				g.setColor(Color.GREEN);
-				g.fillRect(pathX * 10, pathY * 10, 10, 10);
-			}
+				// draw the path list
+				for (int p = 0; p < path.size(); p += 2) {
+					int pathX = path.get(p);
+					int pathY = path.get(p + 1);
+					g.setColor(Color.GREEN);
+					g.fillRect(pathX * 10, pathY * 10, 10, 10);
+				}
+			
+			//player
+			int pathX = currentxPos;
+			int pathY = currentyPos;
+			g.setColor(Color.BLUE);
+			g.fillOval(pathX * 10, pathY * 10, 10, 10);
 		}
-
-
-
-		// draw the ball on path
-		int pathX = currentxPos;
-		int pathY = currentyPos;
-		g.setColor(Color.BLUE);
-		g.fillOval(pathX * 10, pathY * 10, 10, 10);
-
 	}
 
 
@@ -189,13 +187,9 @@ public class View extends JFrame {
 	}
 
 	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				View view = new View();
-				view.setVisible(true);
-			}
-		});
+
+		View view = new View();
+		view.setVisible(true);
 	}
 
 
