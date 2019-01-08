@@ -16,6 +16,7 @@ public class MazeGenerator {
 	private Cell[][] cellArray; // 2D array of Cells
 	private Random random; // The random object
 	private int gridxPos, gridyPos; // Dimension of output grid
+	private int diceForExitLocation; // A 2 sided dice that decided which location the exit is located
 
 	/**
 	 * Contructor for equal sized width and height
@@ -45,6 +46,7 @@ public class MazeGenerator {
 		random = new Random();
 
 		grid = new Integer[this.gridxPos][this.gridyPos];
+		diceForExitLocation = random.nextInt(2);
 		createCellArray();
 		generateMaze();
 	}
@@ -158,7 +160,7 @@ public class MazeGenerator {
 
 		while (!cells.isEmpty()) {
 			Cell cell;
-			if (random.nextInt(10)==0)
+			if (random.nextInt(5)==0)
 				cell = cells.remove(random.nextInt(cells.size()));
 			else 
 				cell = cells.remove(cells.size() - 1);
@@ -216,23 +218,21 @@ public class MazeGenerator {
 			for (int y = 0; y < rows; y++) {
 				Cell current = getCell(x, y);
 				int gridX = x * 2 + 1, gridY = y * 2 + 1;
-
-				if (x == cols - 1 && y == rows - 1) {
-					grid[gridX][gridY] = target;
-				} else {
-					grid[gridX][gridY] = hallway;
-					if (current.isCellBelowNeighbor()) {
-						grid[gridX][gridY + 1] = hallway;
-					}
-					if (current.isCellRightNeighbor()) {
-						grid[gridX + 2][gridY] = hallway;
-						grid[gridX + 1][gridY] = hallway;
-					}
+				
+				grid[gridX][gridY] = hallway;
+				if (current.isCellBelowNeighbor()) {
+					grid[gridX][gridY + 1] = hallway;
 				}
-				
-				
+				if (current.isCellRightNeighbor()) {
+					grid[gridX + 2][gridY] = hallway;
+					grid[gridX + 1][gridY] = hallway;
+				}
 			}
 		}
+		if (diceForExitLocation == 0)
+			grid[grid.length - 2][grid.length - 1] = target;
+		else
+			grid[grid.length - 1][grid.length - 2] = target;
 	}
 	/**
 	 * Generates an array with walls represented as 1 and path as 0
