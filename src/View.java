@@ -130,7 +130,8 @@ public class View extends JFrame {
 					isPathShowing = false;
 				} else {
 					mazeArray = generatedMaze.getMazeArray();
-					Solver.findPath(mazeArray, 1, 1, path);
+					Solver.findPath(mazeArray, keylistener.getCurrentyPos(), keylistener.getCurrentxPos(), path);
+			//		Solver.findPath(mazeArray, 1, 1, path);
 					isPathShowing = true;
 				}
 			    repaint();  
@@ -181,10 +182,15 @@ public class View extends JFrame {
 				}
 				// draws the path list
 				for (int i = 0; i < path.size(); i += 2) {
-					int pathX = path.get(i);
-					int pathY = path.get(i + 1);
-					g.setColor(Color.GREEN);
-					g.fillRect(pathX * cellSize, pathY * cellSize, cellSize, cellSize);
+					if (i == 0) {
+						
+					} else {
+						int pathX = path.get(i);
+						int pathY = path.get(i + 1);
+						g.setColor(Color.GREEN);
+						g.fillRect(pathX * cellSize + 1, pathY * cellSize + 1, cellSize - 1, cellSize - 1);
+					}
+					
 				}
 			
 			//draws the player
