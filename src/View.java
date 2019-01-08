@@ -38,6 +38,18 @@ public class View extends JFrame {
 	 */
 	public View() {
 		JPanel buttonPanel = new JPanel((LayoutManager) new FlowLayout(FlowLayout.LEFT));
+		
+		JTextField mazeDesc = new JTextField(6);
+		JTextField cellDesc = new JTextField(5);
+		mazeDesc.setText("Maze size:");
+		mazeDesc.setEditable(false);
+		mazeDesc.setBorder(null);
+		mazeDesc.setFocusable(false);
+		cellDesc.setText("Cell size:");
+		cellDesc.setEditable(false);
+		cellDesc.setBorder(null);
+		cellDesc.setFocusable(false);
+		
     	mazeSizeText = new JTextField(4);
     	cellSizeText = new JTextField(4);
     	mazeSizeText.setText("25");
@@ -48,7 +60,7 @@ public class View extends JFrame {
     	keylistener = new CustomKeyListener(this);
    
     	mazeSizeText.addKeyListener(keylistener);
-    	mazeSizeText.addKeyListener(keylistener); 
+    	cellSizeText.addKeyListener(keylistener); 
     	applyMazeSize.addKeyListener(keylistener);
    		showPath.addKeyListener(keylistener);
    		buttonPanel.addKeyListener(keylistener);
@@ -56,19 +68,20 @@ public class View extends JFrame {
     	applyMazeSize.addActionListener(new ApplyButtonActionListener());
     	showPath.addActionListener(new SolveButtonActionListener());
     	
+    	buttonPanel.add(mazeDesc);
     	buttonPanel.add(mazeSizeText);
+    	buttonPanel.add(cellDesc);
     	buttonPanel.add(cellSizeText);
     	buttonPanel.add(applyMazeSize);
     	buttonPanel.add(showPath);
     	buttonPanel.add(new CustomPanel());
-    
+    	
     	add(buttonPanel);
     	
 		setTitle("Maze generator and solver");
 		setSize(640, 600);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
 	}	
 	
 	/**

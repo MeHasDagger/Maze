@@ -1,5 +1,8 @@
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 /**
  * This class implements KeyListener and keeps track of the player movement.
  * 
@@ -10,6 +13,8 @@ public class CustomKeyListener implements KeyListener{
 	private int currentxPos = 1; // The current player x-coordinate
 	private int currentyPos = 1; // The current player y-coordinate
 	private View view; // The View class that generated the maze
+	private Integer[][] mazeArray; // The maze represented by Integers
+	private boolean isWon = false; // If player has won by reaching the exit
 	
 	/**
 	 * Constructor that recieves the View.
@@ -22,11 +27,16 @@ public class CustomKeyListener implements KeyListener{
 	
 	/**
 	 * Changes the player positon accordingly to what button is pressed.
+	 * Checks if the block in the direction player wants to move in is not a wall.
 	 * 
 	 * @param event the KeyEvent
 	 */
 	private void movePlayer(KeyEvent event) {
-		Integer[][] mazeArray = view.getGeneratedMaze().getMazeArray();
+		try{mazeArray = view.getGeneratedMaze().getMazeArray();
+		}catch(NullPointerException e) {
+			
+		}
+		
 		if (event.getKeyCode() == KeyEvent.VK_UP) {
 			if (mazeArray[currentyPos - 1][currentxPos] != 1) {
 				currentyPos += -1;
@@ -73,6 +83,12 @@ public class CustomKeyListener implements KeyListener{
 		currentxPos = 1;
 		currentyPos = 1;
 	}
+	/**
+	 * Resets the check if player won or not
+	 */
+	public void resetIfWon() {
+		isWon = false;
+	}
 
 	/**
 	 * Implemented method that triggers when a key is pressed.
@@ -80,7 +96,23 @@ public class CustomKeyListener implements KeyListener{
 	@Override
 	public void keyPressed(KeyEvent e) {
 		movePlayer(e);
-		view.repaint(); 
+		view.repaint();
+		checkIfWon();
+	}
+	
+	/**
+	 * Checks if the player have won by getting to the exit.
+	 */
+	public void checkIfWon() {
+		try {
+			if (mazeArray[currentyPos][currentxPos] == 9 && !isWon) {
+				isWon = true;
+				JOptionPane.showMessageDialog(new JFrame(), "Yay, you made it out!", "Congratulations!", JOptionPane.INFORMATION_MESSAGE);
+				
+			}
+		} catch(NullPointerException error) {
+			
+		}
 	}
 
 	/**
