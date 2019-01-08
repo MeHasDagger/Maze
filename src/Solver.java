@@ -17,13 +17,13 @@ public class Solver {
 	 * @return true if a way is found, false if standing on a wall or already visited grid
 	 */
 	public static boolean findPath(Integer[][] maze, int x, int y, List<Integer> pathList) {
-		if (maze[x][y] == 9) {  // Slutdestinationen
+		if (maze[x][y] == 9) {  // Exit 
 			pathList.add(y);
 			pathList.add(x);
 			
 			return true;
-		} else if (maze[x][y] == 0 ) {  // Icke besökt ruta	
-			 maze[x][y] = 2;  // Nu besökt rutan
+		} else if (maze[x][y] == 0 ) {  // Non-visited
+			 maze[x][y] = 2;  // Now visited
 			 
 			 int deltax = 0;
 			 int deltay = -1;
