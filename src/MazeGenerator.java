@@ -33,16 +33,29 @@ public class MazeGenerator {
 	 * @param cols is the number of columns of the maze - except walls
 	 * @param rows is the number of rows of the maze - except walls
 	 */
-	public MazeGenerator(int cols, int rows) {
-		this.cols = cols;
-		this.rows = rows;
+	public MazeGenerator(int gridxPos, int gridyPos) {
+		this.gridxPos = gridxPos;
+		this.gridyPos = gridyPos;
+		
+	
+		if (gridxPos % 2 == 0) {
+			this.gridxPos = gridxPos + 1;
+			this.gridyPos = gridyPos + 1;
+			
+		}
+		System.out.println("xpos: " + this.gridxPos + " ypos: " + this.gridyPos);
+		
+		
+		
 
-		gridxPos = cols * 2 + 1;
-		gridyPos = rows * 2 + 1;
-
+		cols = (int) Math.floor(this.gridxPos / 2);
+		rows = (int) Math.floor(this.gridyPos / 2);
+		
 		random = new Random();
 
-		grid = new Integer[gridxPos][gridyPos];
+		
+		
+		grid = new Integer[this.gridxPos][this.gridyPos];
 		createCellArray();
 		generateMaze();
 	}
