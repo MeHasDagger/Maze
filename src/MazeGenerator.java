@@ -209,28 +209,37 @@ public class MazeGenerator {
 	 * 0 for path from the path from the cell array
 	 */
 	public void generateGrid() {
-		Integer wallChar = 1, cellChar = 0;
-
+		Integer wall = 1, hallway = 0, target = 9;
+		
+		// build walls
 		for (int x = 0; x < gridxPos; x ++) {
 			for (int y = 0; y < gridyPos; y ++) {
-				if (x % 2 == 0 || y % 2 == 0)
-					grid[x][y] = wallChar;
+				//if (x % 4 == 0 || y % 2 == 0)
+					grid[x][y] = wall;
 			}
 		}
-
+		// make meaningful representation
 		for (int x = 0; x < cols; x++) {
 			for (int y = 0; y < rows; y++) {
 				Cell current = getCell(x, y);
+				//int gridX = x * 4 + 2, gridY = y * 2 + 1;
 				int gridX = x * 2 + 1, gridY = y * 2 + 1;
 
-				grid[gridX][gridY] = cellChar;
-				if (current.isCellBelowNeighbor()) {
-					grid[gridX][gridY + 1] = cellChar;
+				if (x == cols - 1 && y == rows - 1) {
+					grid[gridX][gridY] = target;
+				} else {
+					grid[gridX][gridY] = hallway;
+					if (current.isCellBelowNeighbor()) {
+						grid[gridX][gridY + 1] = hallway;
+					}
+					if (current.isCellRightNeighbor()) {
+						grid[gridX + 2][gridY] = hallway;
+						grid[gridX + 1][gridY] = hallway;
+						//grid[gridX + 3][gridY] = cellChar;
+					}
 				}
-				if (current.isCellRightNeighbor()) {
-					grid[gridX + 2][gridY] = cellChar;
-					grid[gridX + 1][gridY] = cellChar;
-				}
+				
+				
 			}
 		}
 	}
