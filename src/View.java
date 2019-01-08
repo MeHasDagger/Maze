@@ -97,7 +97,7 @@ public class View extends JFrame {
     	buttonPanel.add(applyMazeSize);
     	buttonPanel.add(showPath);
     
-    	buttonPanel.add(new MyPanel());
+    	buttonPanel.add(new CustomPanel());
     
     	add(buttonPanel);
     	
@@ -150,7 +150,7 @@ public class View extends JFrame {
 		}
 	}
 	
-	class MyPanel extends JPanel {
+	class CustomPanel extends JPanel {
 		
 	    public Dimension getPreferredSize() { 	
 	        return new Dimension(getParent().getWidth(), getParent().getWidth());
