@@ -32,30 +32,33 @@ public class CustomKeyListener implements KeyListener{
 	 * @param event the KeyEvent
 	 */
 	private void movePlayer(KeyEvent event) {
-		try{mazeArray = view.getGeneratedMaze().getMazeArray();
-		}catch(NullPointerException e) {
+		if (!isWon) {
+			try{mazeArray = view.getGeneratedMaze().getMazeArray();
+			}catch(NullPointerException e) {
+				
+			}
 			
-		}
-		
-		if (event.getKeyCode() == KeyEvent.VK_UP) {
-			if (mazeArray[currentyPos - 1][currentxPos] != 1) {
-				currentyPos += -1;
-			} 
+			if (event.getKeyCode() == KeyEvent.VK_UP) {
+				if (mazeArray[currentyPos - 1][currentxPos] != 1) {
+					currentyPos += -1;
+				} 
 
-		} else if (event.getKeyCode() == KeyEvent.VK_RIGHT) {
-			if (mazeArray[currentyPos][currentxPos + 1] != 1) {
-				currentxPos += 1;
-			}
+			} else if (event.getKeyCode() == KeyEvent.VK_RIGHT) {
+				if (mazeArray[currentyPos][currentxPos + 1] != 1) {
+					currentxPos += 1;
+				}
 
-		} else if (event.getKeyCode() == KeyEvent.VK_DOWN) {
-			if (mazeArray[currentyPos + 1][currentxPos] != 1) {
-				currentyPos += 1;
-			}
-		} else if (event.getKeyCode() == KeyEvent.VK_LEFT) {
-			if (mazeArray[currentyPos][currentxPos - 1] != 1) {
-				currentxPos += -1;
+			} else if (event.getKeyCode() == KeyEvent.VK_DOWN) {
+				if (mazeArray[currentyPos + 1][currentxPos] != 1) {
+					currentyPos += 1;
+				}
+			} else if (event.getKeyCode() == KeyEvent.VK_LEFT) {
+				if (mazeArray[currentyPos][currentxPos - 1] != 1) {
+					currentxPos += -1;
+				}
 			}
 		}
+	
 	}
 	
 	/**
@@ -83,6 +86,7 @@ public class CustomKeyListener implements KeyListener{
 		currentxPos = 1;
 		currentyPos = 1;
 	}
+	
 	/**
 	 * Resets the check if player won or not
 	 */
@@ -90,16 +94,6 @@ public class CustomKeyListener implements KeyListener{
 		isWon = false;
 	}
 
-	/**
-	 * Implemented method that triggers when a key is pressed.
-	 */
-	@Override
-	public void keyPressed(KeyEvent e) {
-		movePlayer(e);
-		view.repaint();
-		checkIfWon();
-	}
-	
 	/**
 	 * Checks if the player have won by getting to the exit.
 	 */
@@ -114,7 +108,17 @@ public class CustomKeyListener implements KeyListener{
 			
 		}
 	}
-
+	
+	/**
+	 * Implemented method that triggers when a key is pressed.
+	 */
+	@Override
+	public void keyPressed(KeyEvent e) {
+		movePlayer(e);
+		view.repaint();
+		checkIfWon();
+	}
+	
 	/**
 	 * Implemented method that triggers when a key is released.
 	 */
