@@ -26,7 +26,7 @@ public class CustomKeyListener implements KeyListener{
 	}
 	
 	/**
-	 * Changes the player positon accordingly to what button is pressed.
+	 * Changes the player position accordingly to what button is pressed.
 	 * Checks if the block in the direction player wants to move in is not a wall.
 	 * 
 	 * @param event the KeyEvent
