@@ -29,26 +29,26 @@ public class View extends JFrame {
 	private int cellSize = 10;
 	private int currentxPos = 1;
 	private int currentyPos = 1;
-	
+
 	public View() {
 		JPanel buttonPanel = new JPanel((LayoutManager) new FlowLayout(FlowLayout.LEFT));
-    	JTextField mazeSizeText = new JTextField(4);
-    	JButton applyMazeSize = new JButton("Apply");
-    	JTextField cellSizeText = new JTextField(4);
-    	JButton showPath = new JButton("Solve");
-    	mazeSizeText.setText("25");
-    	cellSizeText.setText("10");
-    	
-    	CustomKeyListener keylis = new CustomKeyListener();
-   
-      	buttonPanel.setFocusable(true);
-    	buttonPanel.addKeyListener(keylis);
-    	mazeSizeText.addKeyListener(keylis);
-    	applyMazeSize.addKeyListener(keylis);
-   		showPath.addKeyListener(keylis);
-    	mazeSizeText.addKeyListener(keylis); 
+		JTextField mazeSizeText = new JTextField(4);
+		JButton applyMazeSize = new JButton("Apply");
+		JTextField cellSizeText = new JTextField(4);
+		JButton showPath = new JButton("Solve");
+		mazeSizeText.setText("25");
+		cellSizeText.setText("10");
 
-    	applyMazeSize.addActionListener(new ActionListener() {
+		CustomKeyListener keylis = new CustomKeyListener();
+
+		buttonPanel.setFocusable(true);
+		buttonPanel.addKeyListener(keylis);
+		mazeSizeText.addKeyListener(keylis);
+		applyMazeSize.addKeyListener(keylis);
+		showPath.addKeyListener(keylis);
+		mazeSizeText.addKeyListener(keylis); 
+
+		applyMazeSize.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -56,14 +56,14 @@ public class View extends JFrame {
 				try{ 
 					mazeSize = Integer.parseInt(mazeSizeText.getText());
 					cellSize = Integer.parseInt(cellSizeText.getText());
-					
+
 					if (mazeSize >= 2 && cellSize >= 2) {
 						generatedMaze = new MazeGenerator(mazeSize);
-					    maze = generatedMaze.getMazeArray();
-					    currentxPos = 1;
-					    currentyPos = 1;
-					    path.removeAll(path);
-					    isPathShowing = false;
+						maze = generatedMaze.getMazeArray();
+						currentxPos = 1;
+						currentyPos = 1;
+						path.removeAll(path);
+						isPathShowing = false;
 						repaint();
 					} else {
 						JOptionPane.showMessageDialog(new JFrame(), "Values need to be equals or larger than 2.", "Number too small", JOptionPane.WARNING_MESSAGE);
@@ -74,7 +74,7 @@ public class View extends JFrame {
 			}
 		});
 
-    	showPath.addActionListener(new ActionListener() {
+		showPath.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -87,29 +87,29 @@ public class View extends JFrame {
 						Solver.findPath(maze, 1, 1, path);
 						isPathShowing = true;
 					}
-				    repaint();  
+					repaint();  
 				}
 			}
 		});
-    	buttonPanel.setPreferredSize(new Dimension(40, 0));
-    	buttonPanel.add(mazeSizeText);
-    	buttonPanel.add(cellSizeText);
-    	buttonPanel.add(applyMazeSize);
-    	buttonPanel.add(showPath);
-    
-    	buttonPanel.add(new CustomPanel());
-    
-    	add(buttonPanel);
-    	
+		buttonPanel.setPreferredSize(new Dimension(40, 0));
+		buttonPanel.add(mazeSizeText);
+		buttonPanel.add(cellSizeText);
+		buttonPanel.add(applyMazeSize);
+		buttonPanel.add(showPath);
+
+		buttonPanel.add(new CustomPanel());
+
+		add(buttonPanel);
+
 		setTitle("Maze generator and solver");
 		setSize(640, 600);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+
 	}	
-	
+
 	private void movePlayer(KeyEvent ke) {
-		
+
 		if (ke.getKeyCode() == KeyEvent.VK_UP) {
 			if (maze[currentyPos - 1][currentxPos] != 1) {
 				currentyPos += -1;
@@ -130,7 +130,7 @@ public class View extends JFrame {
 			}
 		}
 	}
-	
+
 	class CustomKeyListener implements KeyListener{
 
 		@Override
@@ -141,25 +141,25 @@ public class View extends JFrame {
 
 		@Override
 		public void keyReleased(KeyEvent e) {
-			
+
 		}
 
 		@Override
 		public void keyTyped(KeyEvent e) {
-		
+
 		}
 	}
-	
+
 	class CustomPanel extends JPanel {
-		
-	    public Dimension getPreferredSize() { 	
-	        return new Dimension(getParent().getWidth(), getParent().getWidth());
-	    }
-	    
-	    protected void paintComponent(Graphics g) {
-	        super.paintComponent(g);       
-	  
-	    	if (maze != null) {
+
+		public Dimension getPreferredSize() { 	
+			return new Dimension(getParent().getWidth(), getParent().getWidth());
+		}
+
+		protected void paintComponent(Graphics g) {
+			super.paintComponent(g);       
+
+			if (maze != null) {
 				for (int row = 0; row < maze.length; row++) {
 					for (int col = 0; col < maze[0].length; col++) {
 						Color color;
@@ -182,20 +182,20 @@ public class View extends JFrame {
 					g.setColor(Color.GREEN);
 					g.fillRect(pathX * cellSize, pathY * cellSize, cellSize, cellSize);
 				}
-			
-			//player
-			g.setColor(Color.BLUE);
-			g.fillOval(currentxPos * cellSize, currentyPos * cellSize, cellSize, cellSize);
-	    	}
-	    }  
+
+				//player
+				g.setColor(Color.BLUE);
+				g.fillOval(currentxPos * cellSize, currentyPos * cellSize, cellSize, cellSize);
+			}
+		}  
 	}
 
 	public static void main(String[] args) {
-		 SwingUtilities.invokeLater(new Runnable() {
-	            public void run() {
-	            	View view = new View();
-	        		view.setVisible(true);
-	            }
-	        });
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				View view = new View();
+				view.setVisible(true);
+			}
+		});
 	}
 }
