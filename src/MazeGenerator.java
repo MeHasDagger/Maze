@@ -59,7 +59,7 @@ public class MazeGenerator {
 		cellArray = new Cell[cols][rows];
 		for (int x = 0; x < cols; x++) {
 			for (int y = 0; y < rows; y++) {
-				cellArray[x][y] = new Cell(x, y, false); // create cell (see Cell constructor)
+				cellArray[x][y] = new Cell(x, y, false);
 			}
 		}
 	}
