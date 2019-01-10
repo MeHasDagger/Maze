@@ -1,135 +1,217 @@
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
-import java.awt.event.KeyEvent;
+import java.awt.LayoutManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 /**
+ * This class holds all the GUI elements and a few controllers.
+ * 
+ * @author Mattias Melchior, Sanna Lundqvist
  *
- * @author leo
  */
 @SuppressWarnings("serial")
 public class View extends JFrame {
 
-    /**
-     * Conventions:
-     * 
-     * maze[row][col]
-     * 
-     * Values: 0 = not-visited node
-     *         1 = wall (blocked)
-     *         2 = visited node
-     *         9 = target node
-     *
-     * borders must be filled with "1" to void ArrayIndexOutOfBounds exception.
-     */
-	/*
-    private int [][] maze = 
-        { {1,1,1,1,1,1,1,1,1,1,1,1,1},
-          {1,0,1,0,1,0,1,0,0,0,0,0,1},
-          {1,0,1,0,0,0,1,0,1,1,1,0,1},
-          {1,0,0,0,1,1,1,0,0,0,0,0,1},
-          {1,0,1,0,0,0,0,0,1,1,1,0,1},
-          {1,0,1,0,1,1,1,0,1,0,0,0,1},
-          {1,0,1,0,1,0,0,0,1,1,1,0,1},
-          {1,0,1,0,1,1,1,0,1,0,1,0,1},
-          {1,0,0,0,0,0,0,0,0,0,1,9,1},
-          {1,1,1,1,1,1,1,1,1,1,1,1,1}
-        };
-     */
-	private Integer[][] maze;
+	private Integer[][] mazeArray; // The maze represented by Integers(0 for path, 1 for wall, 2 for visited path, 9 for endpoint)
+	private MazeGenerator generatedMaze; // The MazeGenerator object
+	private final List<Integer> path = new ArrayList<Integer>(); // The path to the exit
+	private boolean isPathShowing = false; // Used as a toggle to show the correct path or not
+	private CustomKeyListener keylistener; // The CustomKeyListener object
+	private JTextField mazeSizeText; // A JTextField that sets the size of the maze
+	private JTextField cellSizeText; // A JTextField that sets the size of a cellblock
+	private int cellSize = 10; // Determines the graphical representaion of a cellblock
+	
+	/**
+	 * A constructor that creates all the GUI elements and sets listeners to components that need one.
+	 */
+	public View() {
+		JPanel buttonPanel = new JPanel((LayoutManager) new FlowLayout(FlowLayout.LEFT));
+		
+		JTextField mazeDesc = new JTextField(6);
+		JTextField cellDesc = new JTextField(5);
+		mazeDesc.setText("Maze size:");
+		mazeDesc.setEditable(false);
+		mazeDesc.setBorder(null);
+		mazeDesc.setFocusable(false);
+		cellDesc.setText("Cell size:");
+		cellDesc.setEditable(false);
+		cellDesc.setBorder(null);
+		cellDesc.setFocusable(false);
+		
+    	mazeSizeText = new JTextField(4);
+    	cellSizeText = new JTextField(4);
+    	mazeSizeText.setText("25");
+    	cellSizeText.setText("10");
+    	JButton applyMazeSize = new JButton("Apply");
+    	JButton showPath = new JButton("Solve");
     
-    private final List<Integer> path = new ArrayList<Integer>();
-    private int pathIndex;
-    
-    public View() {
-        setTitle("Simple Maze Solver");
-        setSize(640, 480);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
-        MazeGenerator generatedMaze = new MazeGenerator(5);
-        maze = generatedMaze.getMazeArray();
-        maze[9][9] = 9;
-        
-        Solver.findPath(maze, 1, 1, path);
-        pathIndex = path.size() - 2;
-    }
+    	keylistener = new CustomKeyListener(this);
+   
+    	mazeSizeText.addKeyListener(keylistener);
+    	cellSizeText.addKeyListener(keylistener); 
+    	applyMazeSize.addKeyListener(keylistener);
+   		showPath.addKeyListener(keylistener);
+   		buttonPanel.addKeyListener(keylistener);
 
-    @Override
-    public void paint(Graphics g) {
-        super.paint(g);
-        
-        g.translate(50, 50);
-        
-        // draw the maze
-        for (int row = 0; row < maze.length; row++) {
-            for (int col = 0; col < maze[0].length; col++) {
-                Color color;
-                switch (maze[row][col]) {
-                    case 1 : color = Color.BLACK; break;
-                    case 9 : color = Color.RED; break;
-                    default : color = Color.WHITE;
-                }
-                g.setColor(color);
-                g.fillRect(30 * col, 30 * row, 30, 30);
-                g.setColor(Color.BLACK);
-                g.drawRect(30 * col, 30 * row, 30, 30);
-            }
-        }
-        
-        // draw the path list
-        for (int p = 0; p < path.size(); p += 2) {
-            int pathX = path.get(p);
-            int pathY = path.get(p + 1);
-            g.setColor(Color.GREEN);
-            g.fillRect(pathX * 30, pathY * 30, 30, 30);
-        }
+    	applyMazeSize.addActionListener(new ApplyButtonActionListener());
+    	showPath.addActionListener(new SolveButtonActionListener());
+    	
+    	buttonPanel.add(mazeDesc);
+    	buttonPanel.add(mazeSizeText);
+    	buttonPanel.add(cellDesc);
+    	buttonPanel.add(cellSizeText);
+    	buttonPanel.add(applyMazeSize);
+    	buttonPanel.add(showPath);
+    	buttonPanel.add(new CustomPanel());
+    	
+    	add(buttonPanel);
+    	
+		setTitle("Maze generator and solver");
+		setSize(640, 600);
+		setLocationRelativeTo(null);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}	
+	
+	/**
+	 * Getter for the MazeGenerator object.
+	 * 
+	 * @return the generatedMaze
+	 */
+	public MazeGenerator getGeneratedMaze() {
+		return generatedMaze;
+		
+	}
+	
+	/**
+	 * A inner class that implements ActionListener used for the applyButton. 
+	 * It confirms that there is numerical values in the JTextFields and reapplies them to the maze and GUI.
+	 * Also resets a bunch of controls for player movement
+	 *  
+	 * @author Mattias Melchior, Sanna Lundqvist
+	 *
+	 */
+	class ApplyButtonActionListener implements ActionListener {
 
-        
-        // draw the ball on path
-        int pathX = path.get(pathIndex);
-        int pathY = path.get(pathIndex + 1);
-        g.setColor(Color.RED);
-        g.fillOval(pathX * 30, pathY * 30, 30, 30);
-        
-    }
-    
-    @Override
-    protected void processKeyEvent(KeyEvent ke) {
-        if (ke.getID() != KeyEvent.KEY_PRESSED) {
-            return;
-        }
-        if (ke.getKeyCode() == KeyEvent.VK_UP) {
-        	
-        }
-        
-        if (ke.getKeyCode() == KeyEvent.VK_RIGHT) {
-            pathIndex -= 2;
-            if (pathIndex < 0) {
-                pathIndex = 0;
-            }
-        }
-        else if (ke.getKeyCode() == KeyEvent.VK_LEFT) {
-            pathIndex += 2;
-            if (pathIndex > path.size() - 2) {
-                pathIndex = path.size() - 2;
-            }
-        }
-        repaint(); 
-    }
-    
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                View view = new View();
-                view.setVisible(true);
-            }
-        });
-    }
-    
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			int mazeSize = 0;
+			try{ 
+				mazeSize = Integer.parseInt(mazeSizeText.getText());
+				cellSize = Integer.parseInt(cellSizeText.getText());
+				
+				if (mazeSize >= 2 && cellSize >= 2) {
+					generatedMaze = new MazeGenerator(mazeSize);
+				    mazeArray = generatedMaze.getMazeArray();
+				    keylistener.resetCurrentPos();
+				    keylistener.resetIfWon();
+				    path.removeAll(path);
+				    isPathShowing = false;
+					repaint();
+				} else {
+					JOptionPane.showMessageDialog(new JFrame(), "Values need to be equals or larger than 2.", "Number too small", JOptionPane.WARNING_MESSAGE);
+				}
+			} catch(NumberFormatException err) {
+				JOptionPane.showMessageDialog(new JFrame(), "Cannot parse, please only use numbers.", "NumberFormatException", JOptionPane.WARNING_MESSAGE);
+			}
+		}
+	}
+	
+	/**
+	 * A inner class that implements ActionListener used for the findPathButton. 
+	 * It toggles between showing the path to the exit and hiding it.
+	 * 
+	 * @author Mattias Melchior, Sanna Lundqvist
+	 *
+	 */
+	class SolveButtonActionListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (mazeArray != null) {
+				if (isPathShowing) {
+					path.removeAll(path);
+					isPathShowing = false;
+				} else {
+					mazeArray = generatedMaze.getMazeArray();
+					Solver.findPath(mazeArray, keylistener.getCurrentyPos(), keylistener.getCurrentxPos(), path);
+			//		Solver.findPath(mazeArray, 1, 1, path);
+					isPathShowing = true;
+				}
+			    repaint();  
+			}
+		}
+	}
+	
+	/**
+	 * A inner class that extends JPanel and is used to draw the maze.
+	 * 
+	 * @author Mattias Melchior, Sanna Lundqvist
+	 *
+	 */
+	class CustomPanel extends JPanel {
+		
+		/**
+		 * Makes sure the JPanel covers the JFrame
+		 * 
+		 * @return the Dimension
+		 */
+	    public Dimension getPreferredSize() { 	
+	        return new Dimension(getParent().getWidth(), getParent().getWidth());
+	    }
+	    
+	    /**
+	     * Paints the whole maze and player.
+	     * 
+	     * @param g - the Graphics
+	     */
+	    protected void paintComponent(Graphics g) {
+	        super.paintComponent(g);       
+	        
+	        // draws the maze
+	    	if (mazeArray != null) {
+				for (int row = 0; row < mazeArray.length; row++) {
+					for (int col = 0; col < mazeArray[0].length; col++) {
+						Color color;
+						switch (mazeArray[row][col]) {
+						case 1 : color = Color.BLACK; break;
+						case 9 : color = Color.RED; break;
+						default : color = Color.WHITE;
+						}
+						g.setColor(color);
+						g.fillRect(cellSize * col, cellSize * row, cellSize, cellSize);
+						g.setColor(Color.BLACK);
+						g.drawRect(cellSize * col, cellSize * row, cellSize, cellSize);
+					}
+				}
+				// draws the path list
+				for (int i = 0; i < path.size(); i += 2) {
+					if (i == 0) {
+						
+					} else {
+						int pathX = path.get(i);
+						int pathY = path.get(i + 1);
+						g.setColor(Color.GREEN);
+						g.fillRect(pathX * cellSize + 1, pathY * cellSize + 1, cellSize - 1, cellSize - 1);
+					}
+					
+				}
+			
+			//draws the player
+			g.setColor(Color.BLUE);
+			g.fillOval(keylistener.getCurrentxPos() * cellSize, keylistener.getCurrentyPos() * cellSize, cellSize, cellSize);
+	    	}
+	    }  
+	}
 }
