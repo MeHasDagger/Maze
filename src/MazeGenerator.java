@@ -11,7 +11,7 @@ import java.util.Random;
  */
 
 public class MazeGenerator {
-	private int cols, rows;  // The
+	private int cols, rows;  // Dimension of the cell grid
 	private Integer[][] grid; // Output grid
 	private Cell[][] cellArray; // 2D array of Cells
 	private Random random; // The random object
@@ -71,9 +71,9 @@ public class MazeGenerator {
 	 *
 	 */
 	private class Cell {
-		int x, y; 
-		ArrayList<Cell> neighbors = new ArrayList<>();
-		boolean avalible = true;
+		private int x, y; 
+		private ArrayList<Cell> neighbors = new ArrayList<>();
+		private boolean avalible = true;
 		/**
 		 * Constructor with the cells coordinates
 		 * This cell is considered as a wall

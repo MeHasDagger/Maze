@@ -56,7 +56,7 @@ public class View extends JFrame {
     	cellSizeText.setText("10");
     	JButton applyMazeSize = new JButton("Apply");
     	JButton showPath = new JButton("Solve");
-    
+   
     	keylistener = new CustomKeyListener(this);
    
     	mazeSizeText.addKeyListener(keylistener);
@@ -146,7 +146,6 @@ public class View extends JFrame {
 				} else {
 					mazeArray = generatedMaze.getMazeArray();
 					Solver.findPath(mazeArray, keylistener.getCurrentyPos(), keylistener.getCurrentxPos(), path);
-			//		Solver.findPath(mazeArray, 1, 1, path);
 					isPathShowing = true;
 				}
 			    repaint();  
@@ -163,7 +162,7 @@ public class View extends JFrame {
 	class CustomPanel extends JPanel {
 		
 		/**
-		 * Makes sure the JPanel covers the JFrame
+		 * Sets the JPanel size to cover the JFrame.
 		 * 
 		 * @return the Dimension
 		 */
@@ -172,14 +171,13 @@ public class View extends JFrame {
 	    }
 	    
 	    /**
-	     * Paints the whole maze and player.
+	     * Paints the maze and player.
 	     * 
 	     * @param g - the Graphics
 	     */
 	    protected void paintComponent(Graphics g) {
 	        super.paintComponent(g);       
 	        
-	        // draws the maze
 	    	if (mazeArray != null) {
 				for (int row = 0; row < mazeArray.length; row++) {
 					for (int col = 0; col < mazeArray[0].length; col++) {
@@ -195,7 +193,7 @@ public class View extends JFrame {
 						g.drawRect(cellSize * col, cellSize * row, cellSize, cellSize);
 					}
 				}
-				// draws the path list
+				
 				for (int i = 0; i < path.size(); i += 2) {
 					if (i == 0) {
 						
@@ -208,7 +206,6 @@ public class View extends JFrame {
 					
 				}
 			
-			//draws the player
 			g.setColor(Color.BLUE);
 			g.fillOval(keylistener.getCurrentxPos() * cellSize, keylistener.getCurrentyPos() * cellSize, cellSize, cellSize);
 	    	}

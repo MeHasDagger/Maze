@@ -17,17 +17,17 @@ public class Solver {
 	 * @return true if a way is found, false if standing on a wall or already visited grid
 	 */
 	public static boolean findPath(Integer[][] maze, int x, int y, List<Integer> pathList) {
-		if (maze[x][y] == 9) {  // Exit 
+		if (maze[x][y] == 9) { 
 			pathList.add(y);
 			pathList.add(x);
 			
 			return true;
-		} else if (maze[x][y] == 0 ) {  // Non-visited
-			 maze[x][y] = 2;  // Now visited
+		} else if (maze[x][y] == 0 ) { 
+			 maze[x][y] = 2;  
 			 
 			 int deltax = 0;
 			 int deltay = -1;
-			 if (findPath(maze, x + deltax, y + deltay, pathList)) {  // Inspects the cell above
+			 if (findPath(maze, x + deltax, y + deltay, pathList)) {  
 				 pathList.add(y);
 				 pathList.add(x);
 				 
@@ -36,7 +36,7 @@ public class Solver {
 			 
 			 deltax = 1;
 			 deltay = 0;
-			 if (findPath(maze, x + deltax, y + deltay, pathList)) {  // Inspects the cell to the right 
+			 if (findPath(maze, x + deltax, y + deltay, pathList)) {  
 				 pathList.add(y);
 				 pathList.add(x);
 				
@@ -45,7 +45,7 @@ public class Solver {
 			 
 			 deltax = 0;
 			 deltay = 1;
-			 if (findPath(maze, x + deltax, y + deltay, pathList)) {  // Inspects the cell below
+			 if (findPath(maze, x + deltax, y + deltay, pathList)) { 
 				 pathList.add(y);
 				 pathList.add(x);
 			
@@ -54,7 +54,7 @@ public class Solver {
 			
 			 deltax = -1;
 			 deltay = 0;
-			 if (findPath(maze, x + deltax, y + deltay, pathList)) {  // Inspects the cell to the left
+			 if (findPath(maze, x + deltax, y + deltay, pathList)) {  
 				 pathList.add(y);
 				 pathList.add(x);
 			
