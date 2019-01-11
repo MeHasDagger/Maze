@@ -198,8 +198,8 @@ public class View extends JFrame {
 					if (i == 0) {
 						
 					} else {
-						int pathX = path.get(i + 1);
 						int pathY = path.get(i);
+						int pathX = path.get(i + 1);
 						g.setColor(Color.GREEN);
 						g.fillRect(pathY * cellSize + 1, pathX * cellSize + 1, cellSize - 1, cellSize - 1);
 					}
