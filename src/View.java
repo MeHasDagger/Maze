@@ -177,31 +177,31 @@ public class View extends JFrame {
 	     */
 	    protected void paintComponent(Graphics g) {
 	        super.paintComponent(g);       
-	        
-	    	if (mazeArray != null) {
-				for (int row = 0; row < mazeArray.length; row++) {
-					for (int col = 0; col < mazeArray[0].length; col++) {
-						Color color;
-						switch (mazeArray[row][col]) {
-						case 1 : color = Color.BLACK; break;
-						case 9 : color = Color.RED; break;
-						default : color = Color.WHITE;
-						}
-						g.setColor(color);
-						g.fillRect(cellSize * col, cellSize * row, cellSize, cellSize);
-						g.setColor(Color.BLACK);
-						g.drawRect(cellSize * col, cellSize * row, cellSize, cellSize);
-					}
-				}
+
+	        if (mazeArray != null) {
+	        	for (int row = 0; row < mazeArray.length; row++) {
+	        		for (int col = 0; col < mazeArray[0].length; col++) {
+	        			Color color;
+	        			switch (mazeArray[row][col]) {
+	        			case 1 : color = Color.BLACK; break;
+	        			case 9 : color = Color.RED; break;
+	        			default : color = Color.WHITE;
+	        			}
+	        			g.setColor(color);
+	        			g.fillRect(cellSize * col, cellSize * row, cellSize, cellSize);
+	        			g.setColor(Color.BLACK);
+	        			g.drawRect(cellSize * col, cellSize * row, cellSize, cellSize);
+	        		}
+	        	}
 				
 				for (int i = 0; i < path.size(); i += 2) {
 					if (i == 0) {
 						
 					} else {
-						int pathX = path.get(i);
-						int pathY = path.get(i + 1);
+						int pathX = path.get(i + 1);
+						int pathY = path.get(i);
 						g.setColor(Color.GREEN);
-						g.fillRect(pathX * cellSize + 1, pathY * cellSize + 1, cellSize - 1, cellSize - 1);
+						g.fillRect(pathY * cellSize + 1, pathX * cellSize + 1, cellSize - 1, cellSize - 1);
 					}
 					
 				}
